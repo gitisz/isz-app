@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "lib": ["dom", "es2018"],
+    "moduleResolution": "node",
+    "module": "esnext",
+    "jsx": "react",
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "/home/todd/projects/isz-app/src"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
