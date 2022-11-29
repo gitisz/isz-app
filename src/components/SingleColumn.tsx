@@ -135,7 +135,7 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
               ISZ-APP
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
-            <Box sx={{ flexGrow: 0, right: 16 }}>
+            <Box sx={{ flexGrow: 0, marginLeft: 'auto' }}>
               <Tooltip title="Settings">
                 <IconButton
                   onClick={handleClick}
@@ -215,7 +215,6 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
           <Divider />
           {Object.keys(menuItems).map((name) => {
             const item = menuItems[name];
-
             if (item.settings.type === 'general') {
               const Component = item.component;
               return (
@@ -230,7 +229,6 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
                 </List>
               );
             }
-
             return undefined;
           })}
         </Drawer>
@@ -243,7 +241,6 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
             </Box>
           </div>
       </Box>
-
     </ThemeProvider>
   )
 };
