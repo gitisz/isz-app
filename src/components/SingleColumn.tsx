@@ -142,7 +142,6 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
                   <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
                 </IconButton>
               </Tooltip>
-
               <Menu
                 anchorEl={anchorEl}
                 id="account-menu"
