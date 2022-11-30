@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { LayoutProps, useGlobalState } from 'piral';
-import { styled, Theme, CSSObject, useTheme, createTheme, ThemeProvider } from '@mui/material/styles';
+import { styled, Theme, CSSObject, ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
-import { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
@@ -12,14 +11,33 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Avatar, Tooltip } from '@mui/material';
+import { AppBar, Avatar, createTheme, PaletteMode, Tooltip } from '@mui/material';
 
 export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
-  const theme = useTheme();
+
+  let prefers = useGlobalState((s) => s.theme);
+
+  if (prefers === undefined) {
+    const lsState = localStorage.getItem("prefers-color");
+    if (lsState != null) {
+      prefers = createTheme({
+        palette: {
+          mode: lsState as PaletteMode,
+        },
+      });
+    } else {
+      prefers = createTheme({
+        palette: {
+          mode: 'light',
+        },
+      });
+    }
+  }
+
+  console.log(prefers);
+
   const drawerWidth = 240;
 
   const openedMixin = (theme: Theme): CSSObject => ({
@@ -52,11 +70,6 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
     ...theme.mixins.toolbar,
   }));
 
-  interface AppBarProps extends MuiAppBarProps {
-    open?: boolean;
-  }
-
-
   const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({
       width: drawerWidth,
@@ -75,32 +88,13 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
   );
 
   const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
-  const prefers = createTheme({
-    palette: {
-      mode: 'light',
-    },
-  });
-
+  const handleDrawerOpen = () => { setOpen(true); };
+  const handleDrawerClose = () => { setOpen(false); };
   const menuItems = useGlobalState((s) => s.registry.menuItems);
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const m_open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => { setAnchorEl(event.currentTarget); };
+  const handleClose = () => { setAnchorEl(null); };
 
   return (
     <ThemeProvider theme={prefers}>
@@ -184,28 +178,22 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
-                <MenuItem>
-                  <Avatar /> Profile
-                </MenuItem>
-                <MenuItem>
-                  <Avatar /> My account
-                </MenuItem>
-                <Divider />
-                <MenuItem>
-                  <ListItemIcon>
-                  </ListItemIcon>
-                  Add another account
-                </MenuItem>
-                <MenuItem>
-                  <ListItemIcon>
-                  </ListItemIcon>
-                  Settings
-                </MenuItem>
-                <MenuItem>
-                  <ListItemIcon>
-                  </ListItemIcon>
-                  Logout
-                </MenuItem>
+                {Object.keys(menuItems).map((name) => {
+                  const item = menuItems[name];
+                  if (item.settings.type === 'header') {
+                    const Component = item.component;
+                    return (
+                      <List>
+                        {
+                          [menuItems].map((text, index) => (
+                            <Component />
+                          ))
+                        }
+                      </List>
+                    );
+                  }
+                  return undefined;
+                })}
               </Menu>
             </Box>
           </Toolbar>
@@ -233,13 +221,13 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
           })}
         </Drawer>
         <div className="app-container">
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-              <DrawerHeader />
-              <div className="app-content">
-                {children}
-              </div>
-            </Box>
-          </div>
+          <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+            <DrawerHeader />
+            <div className="app-content">
+              {children}
+            </div>
+          </Box>
+        </div>
       </Box>
     </ThemeProvider>
   )

@@ -36,6 +36,7 @@
     "react-syntax-highlighter": "^15.5.0",
     "react-window": "^1.8.8",
     "redux": "^4.2.0",
+    "redux-persist": "^6.0.0",
     "simplebar-react": "^2.4.3"
   },
   "babel": {

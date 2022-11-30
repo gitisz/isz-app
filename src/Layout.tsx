@@ -1,12 +1,18 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { ComponentsState, ErrorComponentsState, Notifications, SwitchErrorInfo, Menu, MenuItemProps } from 'piral';
+import { ComponentsState, ErrorComponentsState, SwitchErrorInfo } from 'piral';
+import { Notifications } from 'piral-notifications';
 import { Main } from './components/Main';
 import { getTileClass } from './utils';
 
 export const Layout: Partial<ComponentsState> = {
   Layout: ({ children }) => {
-    return ( <Main currentLayout={'desktop'} children={children} /> )
+    return (
+      <>
+        <Main currentLayout={'desktop'} children={children} />
+        <Notifications />
+      </>
+      )
   },
   ErrorInfo: (props) => (
     <div>
@@ -39,7 +45,6 @@ export const Layout: Partial<ComponentsState> = {
     </div>
   ),
 };
-
 
 export const Errors: Partial<ErrorComponentsState> = {
   not_found: () => (
