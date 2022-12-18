@@ -1,11 +1,15 @@
 @use 'sass:math';
 
-html, body, #app, .app-container {
+html,
+body,
+#app,
+.app-container {
   width: 100%;
   min-height: 100%;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -120,6 +124,7 @@ body.pi-modal-open {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -130,96 +135,8 @@ body.pi-modal-open {
   position: relative;
 }
 
-.pi-notifications {
-  position: fixed;
-  display: flex;
-  align-items: flex-end;
-  flex-direction: column;
-  right: 2em;
-  bottom: 2em;
-
-  .pi-item {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    text-align: left;
-    padding: 0.8em;
-    background-color: $bg-color;
-    max-width: 500px;
-    position: relative;
-    box-shadow: 1px 7px 14px -5px rgba(0,0,0,0.2);
-
-    &+& {
-      margin-top: 1em;
-    }
-
-    &.success:before {
-      background-color: #2BDE3F;
-    }
-
-    &.error:before {
-      background-color: #e7431a;
-    }
-
-    &.info:before {
-      background-color: #1D72F3;
-    }
-
-    &.warning:before {
-      background-color: #FFC007;
-    }
-
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-    }
-
-    .pi-details {
-      flex: 1;
-
-      .pi-title {
-        color: #3e3e3e;
-        font-weight: 700;
-        margin-top: 0;
-        margin-bottom: 8px;
-      }
-
-      .pi-description {
-        font-size: 14px;
-        margin-top: 0;
-        margin-bottom: 0;
-        color: #878787;
-      }
-    }
-
-    .pi-close {
-      width: 14px;
-      cursor: pointer;
-      height: 14px;
-      fill: #878787;
-      margin-left: 1.2em;
-      background: url('../images/close.svg') no-repeat center center;
-    }
-  }
-
-  @media screen and (max-width: $breakpoint-tablet) {
-    right: 0;
-    left: 0;
-    bottom: 0;
-
-    .pi-item {
-      max-width: 100%;
-      width: 100%;
-    }
-  }
-}
-
-.app-container, #app {
+.app-container,
+#app {
   display: flex;
   flex-direction: column;
 }
@@ -306,34 +223,36 @@ body.pi-modal-open {
 
   &.is-open {
     transform: none;
-    box-shadow: $menu-shadow-size 0px $menu-shadow-size (-$menu-shadow-size) rgba(0, 0, 0, 0.2);
-  }
+    box-shadow: $menu-shadow-size 0px $menu-shadow-size (
+      -$menu-shadow-size) rgba(0, 0, 0, 0.2
+    );
+}
 
-  .app-menu-content {
-    overflow-y: auto;
-    height: 100%;
-  }
+.app-menu-content {
+  overflow-y: auto;
+  height: 100%;
+}
 
-  .pi-menu {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
+.pi-menu {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
 
-    > .pi-item {
-      flex: 1;
-      margin: 1px 0;
+  >.pi-item {
+    flex: 1;
+    margin: 1px 0;
 
-      > a {
-        display: block;
-        border-left: 5px solid $header-color;
-        padding: 1em;
+    >a {
+      display: block;
+      border-left: 5px solid $header-color;
+      padding: 1em;
 
-        &:hover {
-          border-left-color: $menu-color;
-        }
+      &:hover {
+        border-left-color: $menu-color;
       }
     }
   }
+}
 }
 
 .pi-spinner {
@@ -480,7 +399,7 @@ $tile-gap: 10px;
     width: 90%;
     max-width: 90%;
 
-    & + .pi-details:not(:empty) {
+    &+.pi-details:not(:empty) {
       display: block;
       opacity: 1;
     }
@@ -546,7 +465,7 @@ $tile-gap: 10px;
 }
 
 .pi-error {
-  > img {
+  >img {
     width: 600px;
     max-width: 100%;
     margin: 1em 0;
@@ -630,7 +549,7 @@ $tile-gap: 10px;
       white-space: nowrap;
       text-align: right;
 
-      & > a {
+      &>a {
         display: block;
       }
 
@@ -647,7 +566,8 @@ $tile-gap: 10px;
       }
     }
 
-    &:before, &:after {
+    &:before,
+    &:after {
       content: '';
       display: block;
       position: absolute;
@@ -684,81 +604,138 @@ $tile-gap: 10px;
   }
 }
 
-.notifications {
-  position: fixed;
-  display: flex;
-  align-items: flex-end;
-  flex-direction: column;
-  right: 2em;
-  bottom: 2em;
-}
+// .notifications {
+//   position: fixed;
+//   display: flex;
+//   align-items: flex-end;
+//   flex-direction: column;
+//   right: 2em;
+//   max-width: 50%;
+//   bottom: 2em;
 
-.notification-toast {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  text-align: left;
-  padding: 0.8em;
-  background-color: #fff;
-  max-width: 500px;
-  position: relative;
-  box-shadow: 1px 7px 14px -5px rgba(0, 0, 0, 0.2);
+//   .pi-item {
+//     box-sizing: border-box;
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+//     text-align: left;
+//     padding: 0.8em;
+//     background-color: $bg-color;
+//     max-width: 500px;
+//     position: relative;
+//     box-shadow: 1px 7px 14px -5px rgba(0, 0, 0, 0.2);
 
-  & + & {
-    margin-top: 1em;
-  }
+//     &+& {
+//       margin-top: 1em;
+//     }
 
-  &.success:before {
-    background-color: #2bde3f;
-  }
+//     &.success:before {
+//       background-color: #2BDE3F;
+//     }
 
-  &.error:before {
-    background-color: #e7431a;
-  }
+//     &.error:before {
+//       background-color: #e7431a;
+//     }
 
-  &.info:before {
-    background-color: #1d72f3;
-  }
+//     &.info:before {
+//       background-color: #1D72F3;
+//     }
 
-  &.warning:before {
-    background-color: #ffc007;
+//     &.warning:before {
+//       background-color: #FFC007;
+//     }
+
+//     &:before {
+//       content: '';
+//       position: absolute;
+//       top: 0;
+//       left: 0;
+//       width: 100%;
+//       height: 2px;
+//     }
+
+//     .pi-details {
+//       flex: 1;
+
+//       .pi-title {
+//         color: #3e3e3e;
+//         font-weight: 700;
+//         margin-top: 0;
+//         margin-bottom: 8px;
+//       }
+
+//       .pi-description {
+//         font-size: 14px;
+//         margin-top: 0;
+//         margin-bottom: 0;
+//         color: #878787;
+//       }
+//     }
+
+//     .pi-close {
+//       width: 14px;
+//       cursor: pointer;
+//       height: 14px;
+//       fill: #878787;
+//       margin-left: 1.2em;
+//       background: url('../images/close.svg') no-repeat center center;
+//     }
+//   }
+
+//   @media screen and (max-width: $breakpoint-tablet) {
+//     right: 0;
+//     left: 0;
+//     bottom: 0;
+
+//     .pi-item {
+//       max-width: 100%;
+//       width: 100%;
+//     }
+//   }
+// }
+
+.MuiListItemIcon-Active {
+  >a {
+    color: transparent;
   }
 
   &:before {
-    content: "";
     position: absolute;
-    top: 0;
+    content: "";
     left: 0;
-    width: 100%;
-    height: 2px;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: #a16eff;
+  }
+}
+
+
+.MuiListItemIcon-InActive {
+  >a {
+    color: transparent;
   }
 
-  .notification-toast-details {
-    flex: 1;
-
-    .notification-toast-title {
-      color: #3e3e3e;
-      font-weight: 700;
-      margin-top: 0;
-      margin-bottom: 8px;
-    }
-
-    .notification-toast-description {
-      font-size: 14px;
-      margin-top: 0;
-      margin-bottom: 0;
-      color: #878787;
-    }
+  &:before {
+    position: absolute;
+    content: "";
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: transparent;
   }
+}
 
-  .notification-toast-close {
-    width: 14px;
-    cursor: pointer;
-    height: 14px;
-    fill: #878787;
-    margin-left: 1.2em;
-    background: url('data:image/svg+xml;utf8,<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.642 15.642" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 15.642 15.642"><path fill-rule="evenodd" d="M8.882,7.821l6.541-6.541c0.293-0.293,0.293-0.768,0-1.061  c-0.293-0.293-0.768-0.293-1.061,0L7.821,6.76L1.28,0.22c-0.293-0.293-0.768-0.293-1.061,0c-0.293,0.293-0.293,0.768,0,1.061  l6.541,6.541L0.22,14.362c-0.293,0.293-0.293,0.768,0,1.061c0.147,0.146,0.338,0.22,0.53,0.22s0.384-0.073,0.53-0.22l6.541-6.541  l6.541,6.541c0.147,0.146,0.338,0.22,0.53,0.22c0.192,0,0.384-0.073,0.53-0.22c0.293-0.293,0.293-0.768,0-1.061L8.882,7.821z"></path></svg>')
-      no-repeat center center;
-  }
+.MuiList-padding {
+  padding: 0px;
+}
+
+.MuiListItemText-primary {
+  font-size: 0.85rem;
+  padding-top: 2px;
+}
+
+.MuiButtonBase-root {
+  line-height: 2 !important;
 }

@@ -17,26 +17,10 @@ import { AppBar, Avatar, createTheme, PaletteMode, Tooltip } from '@mui/material
 
 export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
 
+  let navigation = useGlobalState((s) => s.navigation);
   let prefers = useGlobalState((s) => s.theme);
-
-  if (prefers === undefined) {
-    const lsState = localStorage.getItem("prefers-color");
-    if (lsState != null) {
-      prefers = createTheme({
-        palette: {
-          mode: lsState as PaletteMode,
-        },
-      });
-    } else {
-      prefers = createTheme({
-        palette: {
-          mode: 'light',
-        },
-      });
-    }
-  }
-
-  console.log(prefers);
+  let user = useGlobalState((s) => s.user);
+  let menuItems = useGlobalState((s) => s.registry.menuItems);
 
   const drawerWidth = 240;
 
@@ -87,14 +71,26 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
     }),
   );
 
-  const [open, setOpen] = React.useState(false);
-  const handleDrawerOpen = () => { setOpen(true); };
-  const handleDrawerClose = () => { setOpen(false); };
-  const menuItems = useGlobalState((s) => s.registry.menuItems);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const m_open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => { setAnchorEl(event.currentTarget); };
-  const handleClose = () => { setAnchorEl(null); };
+  let [drawerOpen, setDrawerState] = React.useState(navigation.drawer);
+
+  React.useEffect(() => {
+    setDrawerState(navigation.drawer);
+  }, [navigation.drawer]);
+
+  const handleDrawerOpen = () => {
+    navigation.drawer = 'open'
+    setDrawerState(navigation.drawer);
+  };
+
+  const handleDrawerClose = () => {
+    navigation.drawer = 'closed'
+    setDrawerState(navigation.drawer);
+  };
+
+  const [anchor, setAnchor] = React.useState<null | HTMLElement>(null);
+  const m_open = Boolean(anchor);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => { setAnchor(event.currentTarget); };
+  const handleClose = () => { setAnchor(null); };
 
   return (
     <ThemeProvider theme={prefers}>
@@ -109,7 +105,7 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
               onClick={handleDrawerOpen}
               sx={{
                 marginRight: 5,
-                ...(open && { display: 'none' }),
+                ...((drawerOpen === 'open') && { display: 'none' }),
               }}
             >
               <MenuIcon />
@@ -121,12 +117,12 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
               onClick={handleDrawerClose}
               sx={{
                 marginRight: 5,
-                ...(!open && { display: 'none' }),
+                ...(!(drawerOpen === 'open') && { display: 'none' }),
               }}>
               <MenuOpenIcon />
             </IconButton>
             <Typography variant="h6" noWrap component="div">
-              ISZ-APP
+              THE-REALM
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
             <Box sx={{ flexGrow: 0, marginLeft: 'auto' }}>
@@ -141,11 +137,11 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
                       aria-haspopup="true"
                       aria-expanded={m_open ? 'true' : undefined}
                     >
-                      <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                      <Avatar sx={{ width: 32, height: 32 }}>{user.name.charAt(0).toUpperCase()}</Avatar>
                     </IconButton>
                   </Tooltip>
                   <Menu
-                    anchorEl={anchorEl}
+                    anchorEl={anchor}
                     id="settings-menu"
                     open={m_open}
                     onClose={handleClose}
@@ -184,10 +180,10 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
                       if (item.settings.type === 'header') {
                         const Component = item.component;
                         return (
-                          <List>
+                          <List key={name}>
                             {
                               [menuItems].map((text, index) => (
-                                <Component />
+                                <Component key={name} />
                               ))
                             }
                           </List>
@@ -201,19 +197,19 @@ export const SingleColumn: React.FC<LayoutProps> = ({ children }) => {
             </Box>
           </Toolbar>
         </AppBar>
-        <Drawer variant="permanent" open={open}>
+        <Drawer variant="permanent" open={(drawerOpen === 'open')}>
           <DrawerHeader />
-          <Divider />
           {Object.keys(menuItems).map((name) => {
             const item = menuItems[name];
             if (item.settings.type === 'general') {
               const Component = item.component;
               return (
-                <List>
+                <List key={name}>
                   {
                     [menuItems].map((text, index) => (
                       <ListItem key={name} disablePadding sx={{ display: 'block' }}>
                         <Component />
+                        <Divider />
                       </ListItem>
                     ))
                   }

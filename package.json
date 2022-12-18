@@ -19,9 +19,10 @@
     "babel-preset-react": "^6.24.1",
     "piral": "^0.15.1",
     "piral-base": "0.15.1",
-    "piral-cli-vite": "^0.15.0",
     "piral-core": "0.15.1",
     "piral-dashboard": "^0.15.1",
+    "piral-modals": "^0.15.2",
+    "piral-oauth2": "^0.15.1",
     "prettier": "^2.8.0",
     "prop-types": "^15.8.1",
     "react": "^18",
@@ -90,6 +91,7 @@
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
     "piral-cli": "0.15.1",
+    "piral-cli-webpack5": "0.15.1",
     "typescript": "latest"
   }
 }
